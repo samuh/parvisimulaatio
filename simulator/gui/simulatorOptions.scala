@@ -8,6 +8,8 @@ import javax.swing.SpinnerNumberModel
 import javax.swing.JSpinner
 import javax.swing.JFrame
 import javax.swing._
+import scala.swing.event._
+import simulator.logic.simulatorRuntime
 
 class simulatorOptions extends Panel{
   
@@ -174,7 +176,6 @@ class simulatorOptions extends Panel{
     	layout(optionWindow) = North
     	layout(startButton) = South
     }
-    
     
     this._contents += allOptions
 }
