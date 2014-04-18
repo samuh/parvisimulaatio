@@ -9,19 +9,19 @@ import scala.swing.event._
 object simulatorMainWindow extends SimpleSwingApplication{
   
   val simulator = new simulatorRuntime()
+  val width = 824
+  val height = 768
+  
+  val optionsWindow = new simulatorOptions{
+      preferredSize = new Dimension(200, 768)
+  }
+  
+  val viewWindow = new simulatorView{
+      preferredSize = new Dimension(824, 768)
+  }
 	
   def top = new MainFrame{
     title = "Parvisimulaattori"
-      
-    //Init view window
-    val viewWindow = new simulatorView{
-      preferredSize = new Dimension(824, 768)
-    }
-    
-    //Init options windows
-    val optionsWindow = new simulatorOptions{
-      preferredSize = new Dimension(200, 768)
-    }
     
     //Add inner windows to main window
     contents = new BorderPanel {
@@ -29,11 +29,13 @@ object simulatorMainWindow extends SimpleSwingApplication{
       layout(viewWindow) = East
     }
     
-    listenTo(optionsWindow.startButton)
+    //Listen to start button
+    listenTo(optionsWindow.startButton, optionsWindow.toggleAlignment)
     reactions += {
-      case ButtonClicked(b) =>
-        simulator.timer.start()
+      case ButtonClicked(optionsWindow.startButton) => if(optionsWindow.startButton.selected) simulator.timer.start() else simulator.timer.stop()
+	  case ButtonClicked(optionsWindow.toggleAlignment) => simulator.alignment =  optionsWindow.toggleAlignment.selected
     }
+
     
     //Define menubar and windows size
     size = new Dimension(1024, 768)

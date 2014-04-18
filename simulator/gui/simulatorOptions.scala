@@ -67,10 +67,11 @@ class simulatorOptions extends Panel{
     //All the toggles that enable or disable simulator rules
     val ruleLabel = new JLabel("<html><body style='width:100%;'><hr><h3 style='text-align:center;margin-left:30px;padding-right:70px;padding-left:35px;'>Rules</h3></body></html>")
     val ruleFrame = Component.wrap(ruleLabel);
-
-    val toggleCollision = new ToggleButton{
+    
+    object toggleCollision extends ToggleButton{
       text = "Avoid others"
     }
+   
     
     val toggleAlignment = new ToggleButton{
       text = "Alignment"

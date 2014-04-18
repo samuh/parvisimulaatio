@@ -2,14 +2,12 @@ package simulator.logic
 
 class simulatorBird(){
   
-  var x : Int = 0
-  var y : Int = 0
-  var acceleration : Int = 0
-  var speed : Double = 0.0
-  var turn : Int = 0
+  var position : (Int, Int) = (0, 0)
   
-  //locationFromCenter
-  //turnBird
-  //
-
+  var acceleration : Int = 0
+  var speed : Double = 1.0
+  var orientation : Int = 0
+  
+  var max_force : Int = 0
+  var max_speed : Int = 0
 }
