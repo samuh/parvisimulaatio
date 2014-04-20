@@ -16,8 +16,8 @@ object simulatorMainWindow extends SimpleSwingApplication{
       preferredSize = new Dimension(200, 768)
   }
   
-  val viewWindow = new simulatorView{
-      preferredSize = new Dimension(824, 768)
+  val viewWindow = new simulatorView(simulator){
+      preferredSize = new Dimension(810, 768)
   }
 	
   def top = new MainFrame{
@@ -25,15 +25,16 @@ object simulatorMainWindow extends SimpleSwingApplication{
     
     //Add inner windows to main window
     contents = new BorderPanel {
-      layout(optionsWindow) = West
-      layout(viewWindow) = East
+      layout(optionsWindow) = East
+      layout(viewWindow) = West
     }
     
     //Listen to start button
-    listenTo(optionsWindow.startButton, optionsWindow.toggleAlignment)
+    listenTo(optionsWindow.startButton, optionsWindow.toggleAlignment, optionsWindow.addBird)
     reactions += {
       case ButtonClicked(optionsWindow.startButton) => if(optionsWindow.startButton.selected) simulator.timer.start() else simulator.timer.stop()
 	  case ButtonClicked(optionsWindow.toggleAlignment) => simulator.alignment =  optionsWindow.toggleAlignment.selected
+	  case ButtonClicked(optionsWindow.addBird) => simulator.createBird()
     }
 
     
