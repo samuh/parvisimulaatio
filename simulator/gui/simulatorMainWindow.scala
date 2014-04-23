@@ -2,6 +2,7 @@ package simulator.gui
 
 import scala.swing._
 import scala.swing.BorderPanel.Position._
+import event._
 import java.awt.{Color, Graphics2D}
 import simulator.logic._
 import scala.swing.event._
@@ -29,12 +30,12 @@ object simulatorMainWindow extends SimpleSwingApplication{
       layout(viewWindow) = West
     }
     
-    //Listen to start button
-    listenTo(optionsWindow.startButton, optionsWindow.toggleAlignment, optionsWindow.addBird)
+    //Listen to buttons and react accordingly
+    listenTo(optionsWindow.startButton, optionsWindow.addBird, optionsWindow.deleteBird)
     reactions += {
       case ButtonClicked(optionsWindow.startButton) => if(optionsWindow.startButton.selected) simulator.timer.start() else simulator.timer.stop()
-	  case ButtonClicked(optionsWindow.toggleAlignment) => simulator.alignment =  optionsWindow.toggleAlignment.selected
-	  case ButtonClicked(optionsWindow.addBird) => simulator.createBird()
+	  case ButtonClicked(optionsWindow.addBird) => simulator.createBird
+	  case ButtonClicked(optionsWindow.deleteBird) => simulator.deleteBird
     }
 
     

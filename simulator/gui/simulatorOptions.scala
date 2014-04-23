@@ -17,49 +17,48 @@ class simulatorOptions extends Panel{
     val titleFrame = Component.wrap(titleLabel);
 	
 	val title = new BorderPanel(){
-	      maximumSize = new Dimension(220, 50)
-	      minimumSize = new Dimension(220, 50)
+	      maximumSize = new Dimension(200, 50)
+	      minimumSize = new Dimension(200, 50)
 	      layout(titleFrame) = North
     }
   
 	//All the inputs for changing simulator parameters. Possible values from 1 to 99
 	//Particle speed input and label
   
- 	val speedModel = new SpinnerNumberModel(10, 0, 100, 1)
- 	val massModel = new SpinnerNumberModel(10, 0, 100, 1)
- 	val turnrateModel = new SpinnerNumberModel(10, 0, 100, 1)
+ 	val speedModel = new SpinnerNumberModel(34, 1, 100, 1)
 	
- 	val speedSpinner = new JSpinner(speedModel);
-    val speedFrame = Component.wrap(speedSpinner);
-    val speedLabel = new Label{text = "Speed"}
+ 	val speedSpinner = new JSpinner(speedModel)
+    val speedFrame = Component.wrap(speedSpinner)
+    val speedLabel = new Label{text = "Speed (ms)"}
     
-    val massSpinner = new JSpinner(massModel);
-    val massFrame = Component.wrap(massSpinner);
-    val massLabel = new Label{text = "Mass"}
+    //val collisionSpinner = new JSpinner(collisionModel);
+    //val collisionFrame = Component.wrap(collisionSpinner);
+    //val collisionLabel = new Label{text = "Collision area"}
     
-    val turnrateSpinner = new JSpinner(turnrateModel);
-    val turnrateFrame = Component.wrap(turnrateSpinner);
-    val turnrateLabel = new Label{text = "Turnrate"}
+    //val turnrateSpinner = new JSpinner(turnrateModel);
+    //val turnrateFrame = Component.wrap(turnrateSpinner);
+    //val turnrateLabel = new Label{text = "Turnrate"}
     
     //Inputs will be placed inside GridPanel
     val optionInputs = new GridPanel(3, 2){
       border = Swing.EmptyBorder(0,0,0, 15)
-      maximumSize = new Dimension(220, 125)
-      minimumSize = new Dimension(220, 125)
+      maximumSize = new Dimension(200, 125)
+      minimumSize = new Dimension(200, 125)
       contents += speedLabel
       contents += speedFrame
-      contents += massLabel
-      contents += massFrame
-      contents += turnrateLabel
-      contents += turnrateFrame
+      //contents += speedFrame
+      //contents += collisionLabel
+      //contents += collisionFrame
+      //contents += turnrateLabel
+      //contents += turnrateFrame
     }
     
-    val inputsLabel = new JLabel("<html><body><h4 style='text-align:center;margin-left:10px;margin-right:10px;'>Control option parameters. Range from 0 to 100 </h4></body></html>")
+    val inputsLabel = new JLabel("<html><body><h4 style='text-align:center;margin-left:10px;margin-right:10px;'>Control option parameters. Range from 0 to 10 </h4></body></html>")
     val inputsFrame = Component.wrap(inputsLabel);
     
     val inputWindow = new BorderPanel(){
-	      maximumSize = new Dimension(220, 125)
-	      minimumSize = new Dimension(220, 125)
+	      maximumSize = new Dimension(200, 125)
+	      minimumSize = new Dimension(200, 125)
 	      layout(inputsFrame) = North
 	      layout(optionInputs) = South
     }
@@ -68,30 +67,28 @@ class simulatorOptions extends Panel{
     val ruleLabel = new JLabel("<html><body style='width:100%;'><hr><h3 style='text-align:center;margin-left:30px;padding-right:70px;padding-left:35px;'>Rules</h3></body></html>")
     val ruleFrame = Component.wrap(ruleLabel);
     
-    object toggleCollision extends ToggleButton{
-      text = "Avoid others"
-    }
-   
+    val collision = new JScrollBar(0, 50, 10, 0, 100)
+    val alignment = new JScrollBar(0, 50, 10, 0, 100)
+    val cohesion = new JScrollBar(0, 50, 10, 0, 100)
     
-    val toggleAlignment = new ToggleButton{
-      text = "Alignment"
-    }
+    val collisionFrame = Component.wrap(collision);
+    val alignmentFrame = Component.wrap(alignment);
+    val cohesionFrame = Component.wrap(cohesion);
     
-    val toggleCohesion = new ToggleButton{
-      text = "Cohesion"
-    }
-    
-    val ruleInputs = new GridPanel(3, 2){
-      maximumSize = new Dimension(220, 125)
-      minimumSize = new Dimension(220, 125)
-      contents += toggleCollision
-      contents += toggleAlignment
-      contents += toggleCohesion
+    val ruleInputs = new GridPanel(6,1){
+      maximumSize = new Dimension(200, 125)
+      minimumSize = new Dimension(200, 125)
+      contents += new Label{text = "Collision area"}
+      contents += collisionFrame
+      contents += new Label{text = "Alignment"}
+      contents += alignmentFrame
+      contents += new Label{text = "Cohesion"}
+      contents += cohesionFrame
     }
     
     val ruleWindow = new BorderPanel(){
-	      maximumSize = new Dimension(220, 125)
-	      minimumSize = new Dimension(220, 125)
+	      maximumSize = new Dimension(200, 125)
+	      minimumSize = new Dimension(200, 125)
 	      layout(ruleFrame) = North
 	      layout(ruleInputs) = South
 	      
@@ -118,8 +115,8 @@ class simulatorOptions extends Panel{
     }
     
     val graphicInputs = new GridPanel(3, 2){
-      maximumSize = new Dimension(220, 150)
-      minimumSize = new Dimension(220, 150)
+      maximumSize = new Dimension(200, 150)
+      minimumSize = new Dimension(200, 150)
       contents += toggleCollisionGraphic
       contents += toggleSpeedGraphic
       contents += toggleForceGraphic
@@ -127,8 +124,8 @@ class simulatorOptions extends Panel{
     }
     
     val graphicWindow = new BorderPanel(){
-	      maximumSize = new Dimension(220, 150)
-	      minimumSize = new Dimension(220, 150)
+	      maximumSize = new Dimension(200, 150)
+	      minimumSize = new Dimension(200, 150)
 	      layout(graphicFrame) = North
 	      layout(graphicInputs) = South
 	      
@@ -137,9 +134,9 @@ class simulatorOptions extends Panel{
     
     //Start button that starts and stops the simulator
     val startButton = new ToggleButton {
-      maximumSize = new Dimension(220, 160)
-	  minimumSize = new Dimension(220, 160)
-      preferredSize = new Dimension(220, 160)
+      maximumSize = new Dimension(200, 160)
+	  minimumSize = new Dimension(200, 160)
+      preferredSize = new Dimension(200, 160)
       text = "Start"
       tooltip = "Toggle simulator on and off."
     }
@@ -153,8 +150,8 @@ class simulatorOptions extends Panel{
     }
     
     val buttonWindow = new BorderPanel(){
-    	maximumSize = new Dimension(220, 150)
-	    minimumSize = new Dimension(220, 150)
+    	maximumSize = new Dimension(200, 150)
+	    minimumSize = new Dimension(200, 150)
     	layout(addBird) = North
 	    layout(deleteBird) = South
     }
@@ -172,8 +169,8 @@ class simulatorOptions extends Panel{
    }
     
     val allOptions = new BorderPanel{
-    	maximumSize = new Dimension(220, 768)
-    	minimumSize = new Dimension(220, 768)
+    	maximumSize = new Dimension(200, 768)
+    	minimumSize = new Dimension(200, 768)
     	layout(optionWindow) = North
     	layout(startButton) = South
     }
