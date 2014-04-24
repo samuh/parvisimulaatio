@@ -12,9 +12,13 @@ class simulatorRuntime() {
   val vertical_edge_areas = (20, 748)
   val horizontal_edge_areas = (20, 780)
   val rand = new Random(1024)
+
+  var targetX = 420
+  var targetY = 350
   
-  var flockCenter = 0
-  var flockSpeed = 0
+  def setTargetX(x : Int) = targetX = x
+  
+  def setTargetY(y : Int) = targetY = y
   
   var birds = Buffer[simulatorBird]()
 
@@ -24,16 +28,12 @@ class simulatorRuntime() {
   var turnRate : Int = 50
   
   //Rules 
-  var avoidOther : Boolean = false
-  var alignment : Boolean = false
-  var cohesion : Boolean = false
+  var collision : Double = 0.0
+  var alignment : Double = 0.0
+  var cohesion : Double = 0.0 
+  var flock : Double = 0.0
+  var target : Double = 0.0
 
-  //Graphics
-  var collisionG : Boolean = false
-  var speedG : Boolean = false
-  var forceG : Boolean = false
-  var viewG : Boolean = false
-  
   //Create bird
   def createBird() = {
     var bird = new simulatorBird()
@@ -67,14 +67,14 @@ class simulatorRuntime() {
       repaintView
     }))
   
+  def distance(x : Int, y : Int) : Double = math.sqrt(math.pow(x, 2) + math.pow(y, 2))
+  
   def calculateNewPosition(bird : simulatorBird)={
     var x = bird.getPositionX
     var y = bird.getPositionY
     
     //Get localFlock
     var localFlock = getLocalFlock(bird)
-    
-    //use atan2(y, x)
     
     if(localFlock.length > 1){
 	    //Handle possible collisions
@@ -88,15 +88,17 @@ class simulatorRuntime() {
 	    var avoidAdjustments = 0.0
 	    
 	    localFlock.foreach{ b =>
-	      					var otherX = b.getPositionX
-	      					var otherY = b.getPositionY
-	      					if((otherX < x + 20 && otherX > x - 20) && (otherY < y + 20 && otherY > y - 20)){
-	      					  flockOrientation += b.getOrientation 
-	      					  flockCenterX += b.getPositionX
-	      					  flockCenterY += b.getPositionY
-	      					}
-	      					if((x < xCollision._1 || x > xCollision._2) ||  (y < yCollision._1 || y > yCollision._2)){
-	      					  avoidAdjustments += bird.avoid(b)
+	      					if(b != bird){
+		      					var otherX = b.getPositionX
+		      					var otherY = b.getPositionY
+		      					if((otherX < x + 50 && otherX > x - 50) && (otherY < y + 50 && otherY > y - 50)){
+		      					  flockOrientation += b.getOrientation 
+		      					  flockCenterX += b.getPositionX
+		      					  flockCenterY += b.getPositionY
+		      					}
+		      					if((x < xCollision._1 || x > xCollision._2) &&  (y < yCollision._1 || y > yCollision._2)){
+		      						//bird.avoid(b)
+		      					}
 	      					}
 	      				  }
 	   
@@ -110,19 +112,23 @@ class simulatorRuntime() {
 	      y += 1
 	    }
 	    
-	    var centerAdjustment = math.atan((centerX - x) / (centerY - y))
+	    var centerDifference = bird.distanceTo(centerX, centerY)
+	    var centerAdjustment = math.atan2(centerDifference._2, centerDifference._1)
+	    //bird.turn(centerAdjustment, 0.3)
+	    
+	    var coordDifference = bird.distanceTo(targetX, targetY)
+    	var to_target = math.atan2(coordDifference._2, coordDifference._1)
+    	bird.turn(to_target, (distance(coordDifference._1, coordDifference._2) / 100))
+	    
 	    var orientationAdjustment = ( flockOrientation / localFlock.length )
-	    
-	    var real_direction = (avoidAdjustments + centerAdjustment) / 2
-	    
-	    bird.moveTo(real_direction)
-	   	bird.setOrientation((bird.getOrientation + orientationAdjustment) / 2)
-	   	
+	   	//bird.turn(orientationAdjustment, 0.1)
+	   	bird.moveToDirection
     }else{
-    	var to_center = 0.0
-    	to_center = math.atan2((x - 400).toDouble, (y - 400).toDouble)
-    	println(math.toDegrees(to_center))
-    	bird.moveTo(to_center)
+    	//Lonely bird should move towards the target
+    	var coordDifference = bird.distanceTo(targetX, targetY)
+    	var to_target = math.atan2(coordDifference._2, coordDifference._1)
+    	bird.turn(to_target, (distance(coordDifference._1, coordDifference._2) / 100))
+    	bird.moveToDirection
     }
 
   }
@@ -131,14 +137,14 @@ class simulatorRuntime() {
   def getLocalFlock(bird : simulatorBird) : Buffer[simulatorBird] ={
     var x = bird.getPositionX
     var y = bird.getPositionY
-    val xLocal = (x + 100, x - 100)
-    val yLocal = (y + 100, y - 100) //Make collision area adjustable
+    val xLocal = (x + 50, x - 50)
+    val yLocal = (y + 50, y - 50) //Make collision area adjustable
     
     var localFlock = Buffer[simulatorBird]()
     birds.foreach(b => if((b.getPositionX < xLocal._1 && b.getPositionX > xLocal._2) && (b.getPositionY < yLocal._1 && b.getPositionY > yLocal._2)){ localFlock += b })
-    print(localFlock.length)
     return localFlock
   }
+  
   
 } //Simulator end
 

@@ -31,14 +31,26 @@ object simulatorMainWindow extends SimpleSwingApplication{
     }
     
     //Listen to buttons and react accordingly
-    listenTo(optionsWindow.startButton, optionsWindow.addBird, optionsWindow.deleteBird)
+    listenTo(optionsWindow.toggleCollision, optionsWindow.toggleAim, optionsWindow.toggleFlock, optionsWindow.toggleViewarea, optionsWindow.addBird, optionsWindow.deleteBird, optionsWindow.startButton)
     reactions += {
-      case ButtonClicked(optionsWindow.startButton) => if(optionsWindow.startButton.selected) simulator.timer.start() else simulator.timer.stop()
+      case ButtonClicked(optionsWindow.toggleCollision) => viewWindow.collision = optionsWindow.toggleCollision.selected
+      case ButtonClicked(optionsWindow.toggleAim) => viewWindow.aim = optionsWindow.toggleAim.selected
+      case ButtonClicked(optionsWindow.toggleFlock) => viewWindow.flock = optionsWindow.toggleFlock.selected
+      case ButtonClicked(optionsWindow.toggleViewarea) => viewWindow.viewarea = optionsWindow.toggleViewarea.selected
 	  case ButtonClicked(optionsWindow.addBird) => simulator.createBird
 	  case ButtonClicked(optionsWindow.deleteBird) => simulator.deleteBird
+	  case ButtonClicked(optionsWindow.startButton) => if(optionsWindow.startButton.selected) simulator.timer.start() else simulator.timer.stop()
+    }
+    
+    listenTo(optionsWindow.collision, optionsWindow.alignment, optionsWindow.cohesion, optionsWindow.flockarea, optionsWindow.target)
+    reactions +={
+      case ValueChanged(optionsWindow.collision) => simulator.collision = optionsWindow.collision.value
+      case ValueChanged(optionsWindow.alignment) => simulator.alignment = optionsWindow.alignment.value
+      case ValueChanged(optionsWindow.cohesion) => simulator.cohesion = optionsWindow.cohesion.value
+      case ValueChanged(optionsWindow.flockarea) => simulator.flock = optionsWindow.flockarea.value
+      case ValueChanged(optionsWindow.target) => simulator.target = optionsWindow.target.value
     }
 
-    
     //Define menubar and windows size
     size = new Dimension(1024, 768)
     centerOnScreen()
