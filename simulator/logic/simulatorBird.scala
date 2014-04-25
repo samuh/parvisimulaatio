@@ -62,35 +62,40 @@ class simulatorBird(){
       turnTo = (math.Pi * 2) + turnTo
     }
     
-    //println(turnTo)
-    //Rajatapaus 0 ja 2Pi jolloin syntyy "aalto" koska lintu ei osaa p‰‰tt‰‰ suunta
-    //T‰m‰ kuntoon niin valmis
-    
-    if(turnTo < currentOrientation && (currentOrientation > turnTo + 0.1 || currentOrientation < turnTo - 0.1)){
-    	println("turnTo smalle than current")
-		if(currentOrientation - turnTo < ((math.Pi * 2) - currentOrientation + turnTo)){
-		  newOrientation = (currentOrientation - (weight * 0.01))
-		}else{
-		  newOrientation = (currentOrientation + (weight * 0.01))
-		}
-		if(newOrientation <= 0){
-		  setOrientation((math.Pi * 2) - newOrientation)
-		}else{
-		  setOrientation(newOrientation)
-		}
+    if(turnTo < currentOrientation && (currentOrientation > turnTo || currentOrientation < turnTo)){
+    	if(math.abs(currentOrientation - turnTo) > math.Pi){
+    	  newOrientation = currentOrientation + (weight * 0.01)
+    	  if(newOrientation > math.Pi * 2){
+    	    setOrientation(weight * 0.01)
+    	  }else{
+    	    setOrientation(newOrientation)
+    	  }
+    	}else{
+    	  newOrientation = (currentOrientation - (weight * 0.01))
+    	  if(newOrientation < 0){
+    	    setOrientation((math.Pi * 2) - (weight * 0.01))
+    	  }else{
+    	    setOrientation(newOrientation)
+    	  }
+    	}
+		
     }
-    
-    if(turnTo > currentOrientation && (currentOrientation > turnTo + 0.1 || currentOrientation < turnTo - 0.1)){
-		if(turnTo - currentOrientation < ((math.Pi * 2) - turnTo + currentOrientation)){
-		  newOrientation = currentOrientation + (weight * 0.01)
-		}else{
-		  newOrientation = (currentOrientation - (weight * 0.01))
-		}
-		if(newOrientation >= (math.Pi * 2)){
-		  setOrientation(0 + newOrientation)
-		}else{
-		  setOrientation(newOrientation)
-		}
+    if(turnTo > currentOrientation && (currentOrientation > turnTo || currentOrientation < turnTo)){
+		if(math.abs(turnTo - currentOrientation) > math.Pi){
+    	  newOrientation = (currentOrientation - (weight * 0.01))
+    	  if(newOrientation < 0){
+    	    setOrientation((math.Pi * 2) - (weight * 0.01))
+    	  }else{
+    	    setOrientation(newOrientation)
+    	  }
+    	}else{
+    	   newOrientation = currentOrientation + (weight * 0.01)
+    	  if(newOrientation > math.Pi * 2){
+    	    setOrientation(weight * 0.01)
+    	  }else{
+    	    setOrientation(newOrientation)
+    	  }
+    	}
     }
   }
   
@@ -135,7 +140,7 @@ class simulatorBird(){
       move(-1, 0)
     }
     //To leftdown 202.5 - 247.5
-    else if(rad > 3.52 && rad <= 4.3){
+    else if(rad > 3.51 && rad <= 4.3){
       move(-1, 1)
     }
     //To down 247.5 - 292.5

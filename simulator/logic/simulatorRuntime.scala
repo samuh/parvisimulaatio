@@ -132,7 +132,6 @@ class simulatorRuntime() {
     }
 
   }
-  
   //Localflock is the flock of bird neares to current bird. TODO: Make possible to adjust flock size and visualize flock
   def getLocalFlock(bird : simulatorBird) : Buffer[simulatorBird] ={
     var x = bird.getPositionX
