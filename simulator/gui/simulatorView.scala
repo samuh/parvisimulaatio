@@ -7,15 +7,26 @@ import scala.swing.event._
 
 class simulatorView(simulator : simulatorRuntime) extends Panel{
   
-  //Graphics
+  /** Graphic on/off variables */
   var collision : Boolean = false
   var aim : Boolean = false
   var flock : Boolean = false
-  var viewarea : Boolean = false
+  var data : Boolean = false
   
-  listenTo(mouse.moves)
+  var targetFollowMouse : Boolean = true
+  
+  /** Listen to mouse to get the target */
+  listenTo(mouse.moves, mouse.clicks)
     	reactions +={
-    		case e: MouseMoved => simulator.setTargetX(e.point.x); simulator.setTargetY(e.point.y)
+    		case e: MouseMoved => {
+    		  if(targetFollowMouse){
+    		    simulator.setTargetX(e.point.x); simulator.setTargetY(e.point.y)
+    		  }
+    		}
+    		case e: MouseClicked =>{
+    		  simulator.setTargetX(e.point.x); simulator.setTargetY(e.point.y)
+    		  targetFollowMouse = !targetFollowMouse
+    		}
    }
   
   override def paintComponent(g: Graphics2D){
@@ -23,19 +34,42 @@ class simulatorView(simulator : simulatorRuntime) extends Panel{
     g.setColor(sea)
     g.fillRect(0, 0, this.size.getWidth().toInt, this.size.getHeight().toInt)
     
-    def drawTarget = g.setColor(Color.black); g.fillRect(simulator.targetX, simulator.targetY, 10, 10)
-
-    if(simulator.getBirds.length > 0 ){
-      if(collision){
-        var halo = new Color(0,204,0, 150)
-        var c = simulatorMainWindow.simulator.collision.toInt
-        g.setColor(halo)
-        simulator.getBirds.foreach(b => g.fillOval(3 + b.getPositionX - c/ 2, 2 + b.getPositionY - c / 2, c, c))
+    /** Draw target under the mouse */
+    def drawTarget() ={
+      if(simulatorMainWindow.optionsWindow.startButton.selected){
+        g.setColor(Color.red)
+        g.fillOval(simulator.targetX - 5, simulator.targetY - 5, 10, 10)
       }
-      g.setColor(Color.white)
-      simulator.getBirds.foreach(b => g.fillOval(b.getPositionX, b.getPositionY, 5, 5))
-      g.setColor(Color.black)
-      g.fillRect(simulator.targetX, simulator.targetY, 10, 10)
+    }
+    
+    /** Visualize flock area */
+    def visualizeFlockArea(x : Int, y : Int) ={
+      g.setColor(new Color(0, 51, 102))
+      g.drawOval(x - (simulator.flock.toInt / 2) + 2,y - (simulator.flock.toInt / 2) + 2,simulator.flock.toInt, simulator.flock.toInt)
+    }
+    
+    /** Visualize collision area */
+    def visualizeCollision(x : Int, y : Int) ={
+      g.setColor(new Color(0, 204, 102, 100))
+      g.fillOval(x - (simulator.collision.toInt / 2) + 2, y - (simulator.collision.toInt / 2) + 2, simulator.collision.toInt, simulator.collision.toInt)
+    }
+    
+    /** Draw birds */
+    if(simulator.getBirds.length > 0 ){
+      simulator.getBirds.foreach{
+        b => 
+          var x = b.getPositionX
+          var y = b.getPositionY
+	      if(flock){
+	        visualizeFlockArea(x, y)
+	      }
+	      if(collision){
+	        visualizeCollision(x, y)
+	      }
+	      g.setColor(Color.white)
+          g.fillOval(x, y, 5, 5)
+      }
+      drawTarget()
     }
   }
 
