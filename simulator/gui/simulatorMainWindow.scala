@@ -34,10 +34,9 @@ object simulatorMainWindow extends SimpleSwingApplication{
     }
     
     /** Listen to buttons and react accordingly */
-    listenTo(optionsWindow.toggleCollision, optionsWindow.toggleAim, optionsWindow.toggleFlock, optionsWindow.toggleData, optionsWindow.addBird, optionsWindow.deleteBird, optionsWindow.startButton)
+    listenTo(optionsWindow.toggleCollision, optionsWindow.toggleFlock, optionsWindow.toggleData, optionsWindow.addBird, optionsWindow.deleteBird, optionsWindow.startButton)
     reactions += {
       case ButtonClicked(optionsWindow.toggleCollision) => viewWindow.collision = optionsWindow.toggleCollision.selected; simulator.repaintView
-      case ButtonClicked(optionsWindow.toggleAim) => viewWindow.aim = optionsWindow.toggleAim.selected; simulator.repaintView
       case ButtonClicked(optionsWindow.toggleFlock) => viewWindow.flock = optionsWindow.toggleFlock.selected; simulator.repaintView
       case ButtonClicked(optionsWindow.toggleData) => viewWindow.data = optionsWindow.toggleData.selected; simulator.repaintView
 	  case ButtonClicked(optionsWindow.addBird) => simulator.createBird
@@ -46,12 +45,14 @@ object simulatorMainWindow extends SimpleSwingApplication{
     }
     
     /** Listen to sliders and change values */
-    listenTo(optionsWindow.collisionSize, optionsWindow.alignmentWeight, optionsWindow.cohesionWeight, optionsWindow.flockareaSize, optionsWindow.targetWeight)
+    listenTo(optionsWindow.collisionSize, optionsWindow.collisionWeight, optionsWindow.alignmentWeight, optionsWindow.cohesionWeight, optionsWindow.flockareaSize, optionsWindow.flockareaWeight, optionsWindow.targetWeight)
     reactions +={
-      case ValueChanged(optionsWindow.collisionSize) => simulator.collision = optionsWindow.collisionSize.value.toDouble; simulator.repaintView
+      case ValueChanged(optionsWindow.collisionSize) => simulator.collisionSize = optionsWindow.collisionSize.value.toDouble; simulator.repaintView
+      case ValueChanged(optionsWindow.collisionWeight) => simulator.collision = optionsWindow.collisionSize.value.toDouble
       case ValueChanged(optionsWindow.alignmentWeight) => simulator.alignment = optionsWindow.alignmentWeight.value; simulator.repaintView
       case ValueChanged(optionsWindow.cohesionWeight) => simulator.cohesion = optionsWindow.cohesionWeight.value; simulator.repaintView
-      case ValueChanged(optionsWindow.flockareaSize) => simulator.flock = optionsWindow.flockareaSize.value; simulator.repaintView
+      case ValueChanged(optionsWindow.flockareaSize) => simulator.flockSize = optionsWindow.flockareaSize.value; simulator.repaintView
+      case ValueChanged(optionsWindow.flockareaWeight) => simulator.flock = optionsWindow.flockareaSize.value
       case ValueChanged(optionsWindow.targetWeight) => simulator.target = optionsWindow.targetWeight.value; simulator.repaintView
     }
 

@@ -1,5 +1,8 @@
 package simulator.logic
 
+import simulator.gui.simulatorMainWindow
+import java.awt.Color
+
 class simulatorBird(){
   
   /** Position in (x, y) */
@@ -10,6 +13,8 @@ class simulatorBird(){
   
   /** Turnrate in radians */
   private var turnRate : Double = 0.2
+  
+  private var color : Color = Color.white
   
   def getPosition = this.position
   
@@ -23,6 +28,10 @@ class simulatorBird(){
   
   def setOrientation(orientation : Double) = this.orientation = orientation
   
+  def getColor = this.color
+  
+  def setColor(newColor : Color) = this.color = newColor 
+  
   /** Avoid other bird
    * 
    * @param otherBird bird to avoid
@@ -32,7 +41,7 @@ class simulatorBird(){
    */
   def avoid(otherBird : simulatorBird) ={
     var distanceToOther = distanceTo(otherBird.getPositionX, otherBird.getPositionY)
-    var weight = 1.0 / (distance(distanceToOther._1, distanceToOther._2) / 100)
+    var weight = (1.0 / (distance(distanceToOther._1, distanceToOther._2) / 100)) + (simulatorMainWindow.simulator.collision / 100)
     var avoid = math.atan2(-distanceToOther._2, -distanceToOther._1)
     turn(avoid, weight)
   }

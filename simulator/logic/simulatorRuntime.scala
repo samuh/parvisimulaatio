@@ -4,6 +4,7 @@ import scala.collection.mutable._
 import scala.swing._
 import simulator.gui._
 import scala.util.Random
+import java.awt.Color
 
 
 class simulatorRuntime() {
@@ -16,18 +17,18 @@ class simulatorRuntime() {
   
   var birds = Buffer[simulatorBird]()
   
-  var birdCount = birds.length
-
   //Simulator parameters saved as variables
   var speed : Int = 50
   var mass : Int = 50
   var turnRate : Int = 50
   
   //Rules 
+  var collisionSize : Double = 25.0
   var collision : Double = 25.0
+  var flockSize : Double = 50.0
+  var flock : Double = 50.0
   var alignment : Double = 0.0
   var cohesion : Double = 0.0 
-  var flock : Double = 50
   var target : Double = 0.0
   
   def setTargetX(x : Int) = targetX = x
@@ -150,21 +151,21 @@ class simulatorRuntime() {
 	    
 	    var coordDifference = bird.distanceTo(targetX, targetY)
     	var to_target = math.atan2(coordDifference._2, coordDifference._1)
-    	bird.turn(to_target, (distance(coordDifference._1, coordDifference._2) / 100))
+    	bird.turn(to_target, ((distance(coordDifference._1, coordDifference._2) / 100.0)) * (simulatorMainWindow.simulator.target / 100))
 	    
 	    var centerDifference = bird.distanceTo(centerX, centerY)
 	    var centerAdjustment = math.atan2(centerDifference._2, centerDifference._1)
-	    bird.turn(centerAdjustment, 0.3)
+	    bird.turn(centerAdjustment, (simulatorMainWindow.simulator.cohesion / 70))
 	    
 	    var orientationAdjustment = ( flockOrientation / localFlock.length )
-	   	bird.turn(orientationAdjustment, 0.1)
+	   	bird.turn(orientationAdjustment, (simulatorMainWindow.simulator.alignment / 70))
 	   	bird.moveToDirection
 	   	
     }else{
     	/** Lonely bird should move towards the target */
     	var coordDifference = bird.distanceTo(targetX, targetY)
     	var to_target = math.atan2(coordDifference._2, coordDifference._1)
-    	bird.turn(to_target, (distance(coordDifference._1, coordDifference._2) / 100))
+    	bird.turn(to_target, (1.0 / (distance(coordDifference._1, coordDifference._2) / 100)) + (simulatorMainWindow.simulator.target / 100))
     	bird.moveToDirection
     }
 
@@ -180,7 +181,7 @@ class simulatorRuntime() {
    * The current bird IS part of the flock, so local flock length 
    * will always be atleast one
    */
-  //TODO: visualize flockarea
+
   def getLocalFlock(bird : simulatorBird) : Buffer[simulatorBird] ={
     var x = bird.getPositionX
     var y = bird.getPositionY
@@ -188,7 +189,10 @@ class simulatorRuntime() {
     val yLocal = (y + flock, y - flock)
     
     var localFlock = Buffer[simulatorBird]()
-    birds.foreach(b => if((b.getPositionX < xLocal._1 && b.getPositionX > xLocal._2) && (b.getPositionY < yLocal._1 && b.getPositionY > yLocal._2)){ localFlock += b })
+    birds.foreach{b => 
+      				if((b.getPositionX < xLocal._1 && b.getPositionX > xLocal._2) && (b.getPositionY < yLocal._1 && b.getPositionY > yLocal._2)){ 
+      				  localFlock += b
+      				}}
     return localFlock
   }
   

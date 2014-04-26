@@ -13,19 +13,20 @@ import simulator.logic.simulatorRuntime
 
 class simulatorOptions extends Panel{
   
-	val titleLabel = new JLabel("<html><body><h2 style='margin-left:25px;padding-right:25px;'>Parvisimulaattori</h2><p style='margin-left:45px;padding-right:25px;'>by Samu Hautala</p><hr></body></html>")
-    val titleFrame = Component.wrap(titleLabel);
-	
+	val titlePicture = new Label {
+	  icon = new ImageIcon("parvisimulaatio.png")
+	}
+
 	val title = new BorderPanel(){
 	      maximumSize = new Dimension(200, 50)
 	      minimumSize = new Dimension(200, 50)
-	      layout(titleFrame) = North
+	      layout(titlePicture) = North
     }
   
 	/**
 	* All the inputs for changing simulator parameters. Possible values from 1 to 100
   	*/
- 	val speedModel = new SpinnerNumberModel(34, 1, 100, 1)
+ 	val speedModel = new SpinnerNumberModel(10, 1, 100, 1)
  	val speedSpinner = new JSpinner(speedModel)
     val speedFrame = Component.wrap(speedSpinner)
     val speedLabel = new Label{text = "Delay frequency (ms)"}
@@ -64,7 +65,7 @@ class simulatorOptions extends Panel{
     }
     val flockareaSize =  new Slider{
       min = 0
-      max = 100
+      max = 300
       value = 50
     }
     val flockareaWeight =  new Slider{
@@ -114,16 +115,13 @@ class simulatorOptions extends Panel{
     }
     
     /** All the toggles that enable or disable simulator graphics */
-    val graphicLabel = new JLabel("<html><body style='width:100%;'><hr><h3 style='text-align:center;margin-left:30px;padding-right:50px;padding-left:35px;'>Graphics</h3></body></html>")
+    val graphicLabel = new JLabel("<html><body style='width:100%;'><hr><h3 style='text-align:center;margin-left:22px;padding-right:100px;padding-left:35px;'>Graphics</h3></body></html>")
     val graphicFrame = Component.wrap(graphicLabel);
 
     val toggleCollision = new ToggleButton{
       text = "Collision"
     }
     
-    val toggleAim = new ToggleButton{
-      text = "Aim"
-    }
     
     val toggleFlock = new ToggleButton{
       text = "Flock area"
@@ -137,7 +135,6 @@ class simulatorOptions extends Panel{
       maximumSize = new Dimension(200, 100)
       minimumSize = new Dimension(200, 100)
       contents += toggleCollision
-      contents += toggleAim
       contents += toggleFlock
       contents += toggleData
     }
