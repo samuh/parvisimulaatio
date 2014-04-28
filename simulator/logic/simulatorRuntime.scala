@@ -17,19 +17,12 @@ class simulatorRuntime() {
   
   var birds = Buffer[simulatorBird]()
   
-  //Simulator parameters saved as variables
-  var speed : Int = 50
-  var mass : Int = 50
-  var turnRate : Int = 50
-  
-  //Rules 
-  var collisionSize : Double = 25.0
-  var collision : Double = 25.0
-  var flockSize : Double = 50.0
-  var flock : Double = 50.0
-  var alignment : Double = 0.0
-  var cohesion : Double = 0.0 
-  var target : Double = 0.0
+  var collisionSize : Double = 65.0
+  var collision : Double = 100.0
+  var flockSize : Double = 38.0
+  var alignment : Double = 26.0
+  var cohesion : Double = 40.0
+  var target : Double = 70.0
   
   def setTargetX(x : Int) = targetX = x
   
@@ -128,11 +121,9 @@ class simulatorRuntime() {
 	      					if(b != bird){
 		      					var otherX = b.getPositionX
 		      					var otherY = b.getPositionY
-		      					if((otherX < x + flock && otherX > x - flock) && (otherY < y + flock && otherY > y - flock)){
-		      					  flockOrientation += b.getOrientation 
-		      					  flockCenterX += b.getPositionX
-		      					  flockCenterY += b.getPositionY
-		      					}
+		      					flockOrientation += b.getOrientation 
+		      					flockCenterX += b.getPositionX
+		      					flockCenterY += b.getPositionY
 		      					if((x < xCollision._1 || x > xCollision._2) && (y < yCollision._1 || y > yCollision._2)){
 		      						bird.avoid(b)
 		      					}
@@ -141,7 +132,6 @@ class simulatorRuntime() {
 	   
 	    var centerX = flockCenterX / localFlock.length
 	    var centerY = flockCenterY / localFlock.length
-	    
 	    if((centerX - x) == 0){
 	      x += 1
 	    }
@@ -179,14 +169,14 @@ class simulatorRuntime() {
    * and flock center of this flock if those parameters are true
    * 
    * The current bird IS part of the flock, so local flock length 
-   * will always be atleast one
+   * will always be at least one
    */
 
   def getLocalFlock(bird : simulatorBird) : Buffer[simulatorBird] ={
     var x = bird.getPositionX
     var y = bird.getPositionY
-    val xLocal = (x + flock, x - flock)
-    val yLocal = (y + flock, y - flock)
+    val xLocal = (x + flockSize, x - flockSize)
+    val yLocal = (y + flockSize, y - flockSize)
     
     var localFlock = Buffer[simulatorBird]()
     birds.foreach{b => 

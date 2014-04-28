@@ -34,8 +34,10 @@ class simulatorView(simulator : simulatorRuntime) extends Panel{
   
   override def paintComponent(g: Graphics2D){
     
+    /**Use antialiasing */
     g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON )
     
+    /** Draw the blue background*/
     val sea = new Color(0, 102, 204)
     g.setColor(sea)
     g.fillRect(0, 0, this.size.getWidth().toInt, this.size.getHeight().toInt)
@@ -49,6 +51,7 @@ class simulatorView(simulator : simulatorRuntime) extends Panel{
       }
     }
     
+    /**Draw data. At the moment only data is amount of birds in the scene */
     def drawData()={
       g.setColor(Color.white)
       g.drawString("Bird count : " + simulatorMainWindow.simulator.birds.length.toString, 5, 12)
@@ -57,15 +60,23 @@ class simulatorView(simulator : simulatorRuntime) extends Panel{
     /** Visualize flock area */
     def visualizeFlockArea(x : Int, y : Int) ={
       g.setColor(new Color(0, 51, 102))
-      g.drawOval(x - (simulator.flockSize.toInt / 2),y - (simulator.flockSize.toInt / 2),simulator.flockSize.toInt, simulator.flockSize.toInt)
+      g.drawOval(x - (simulator.flockSize.toInt),y - (simulator.flockSize.toInt),simulator.flockSize.toInt * 2, simulator.flockSize.toInt * 2)
     }
     
     /** Visualize collision area */
     def visualizeCollision(x : Int, y : Int) ={
       g.setColor(new Color(0, 204, 102, 100))
-      g.fillOval(x - (simulator.collisionSize.toInt / 2), y - (simulator.collisionSize.toInt / 2), simulator.collisionSize.toInt, simulator.collisionSize.toInt)
+      g.fillOval(x - (simulator.collisionSize.toInt), y - (simulator.collisionSize.toInt), simulator.collisionSize.toInt * 2, simulator.collisionSize.toInt * 2)
     }
     
+    /**Draw the bird as arrow head 
+     * 
+     * @param x current x location
+     * @param y current y location
+     * @rad current orientation in radians
+     * @color color of the bird(not used)
+     * 
+     */
     def drawBird(x : Int, y : Int, rad : Double, color : Color)={
       g.setColor(Color.white)
       var direction = rad
@@ -73,21 +84,18 @@ class simulatorView(simulator : simulatorRuntime) extends Panel{
       /**Draw line to head */
       var headPointX = 10 * math.cos(rad)
       var headPointY = 10 * math.sin(rad)
-      //g.drawLine(x, y, x + headPointX.toInt, y - headPointY.toInt)
       
       /**Draw line to left point */
       var leftPointX = (7 * math.cos(rad + 2.1))
       var leftPointY = (7 * math.sin(rad + 2.1))
-      //g.drawLine(x, y, x + leftPointX.toInt, y - leftPointY.toInt)
       
       /**Draw line to right point */
       var rightPointX = (7 * math.cos(rad - 2.1))
       var rightPointY = (7 * math.sin(rad - 2.1))
-      //g.drawLine(x, y, x + rightPointX.toInt, y - rightPointY.toInt)
       g.fillPolygon(Array(x + headPointX.toInt, x + leftPointX.toInt, x, x + rightPointX.toInt), Array(y - headPointY.toInt, y - leftPointY.toInt, y, y - rightPointY.toInt), 4)
     }
     
-    /** Draw birds */
+    /** Draw all of the elements */
     if(simulator.getBirds.length > 0 ){
       simulator.getBirds.foreach{
         b => 

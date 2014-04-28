@@ -5,6 +5,7 @@ import scala.swing.BorderPanel.Position._
 import event._
 import java.awt.{Color, Graphics2D}
 import simulator.logic._
+import simulatorIO._
 import scala.swing.event._
 
 object simulatorMainWindow extends SimpleSwingApplication{
@@ -23,6 +24,8 @@ object simulatorMainWindow extends SimpleSwingApplication{
   val viewWindow = new simulatorView(simulator){
       preferredSize = new Dimension(810, 768)
   }
+  
+  val fileManager = new fileManager
 	
   def top = new MainFrame{
     title = "Parvisimulaattori"
@@ -45,14 +48,13 @@ object simulatorMainWindow extends SimpleSwingApplication{
     }
     
     /** Listen to sliders and change values */
-    listenTo(optionsWindow.collisionSize, optionsWindow.collisionWeight, optionsWindow.alignmentWeight, optionsWindow.cohesionWeight, optionsWindow.flockareaSize, optionsWindow.flockareaWeight, optionsWindow.targetWeight)
+    listenTo(optionsWindow.collisionSize, optionsWindow.collisionWeight, optionsWindow.alignmentWeight, optionsWindow.cohesionWeight, optionsWindow.flockareaSize, optionsWindow.targetWeight)
     reactions +={
       case ValueChanged(optionsWindow.collisionSize) => simulator.collisionSize = optionsWindow.collisionSize.value.toDouble; simulator.repaintView
       case ValueChanged(optionsWindow.collisionWeight) => simulator.collision = optionsWindow.collisionSize.value.toDouble
       case ValueChanged(optionsWindow.alignmentWeight) => simulator.alignment = optionsWindow.alignmentWeight.value; simulator.repaintView
       case ValueChanged(optionsWindow.cohesionWeight) => simulator.cohesion = optionsWindow.cohesionWeight.value; simulator.repaintView
       case ValueChanged(optionsWindow.flockareaSize) => simulator.flockSize = optionsWindow.flockareaSize.value; simulator.repaintView
-      case ValueChanged(optionsWindow.flockareaWeight) => simulator.flock = optionsWindow.flockareaSize.value
       case ValueChanged(optionsWindow.targetWeight) => simulator.target = optionsWindow.targetWeight.value; simulator.repaintView
     }
 
@@ -62,7 +64,7 @@ object simulatorMainWindow extends SimpleSwingApplication{
     resizable = false
     menuBar = new MenuBar {
       contents += new Menu("Menu") {
-        contents += new MenuItem("Load Scenario...")
+        contents += new MenuItem(Action("Load Scenario...")(fileManager.openFile))
         contents += new MenuItem("Save scenario..")
         contents += new MenuItem(Action("Exit") {
           sys.exit(0)

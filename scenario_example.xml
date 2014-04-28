@@ -1,0 +1,23 @@
+<scenario>
+	<birds>
+		<bird x="1.0" y="1.0" orientation="3.13" />
+		<bird x="1.0" y="1.0" orientation="3.13" />
+		<bird x="1.0" y="1.0" orientation="3.13" />
+		<bird x="1.0" y="1.0" orientation="3.13" />
+		<bird x="1.0" y="1.0" orientation="3.13" />
+	</birds>
+	<rules>
+		<rule name="collisionSize" value="75.0" />
+		<rule name="collisionSize" value="75.0" />
+		<rule name="collisionSize" value="75.0" />
+		<rule name="collisionSize" value="75.0" />
+		<rule name="collisionSize" value="75.0" />
+	</rules>
+	<graphics>
+		<graphic name="collision" value="true" />
+		<graphic name="collision" value="true" />
+		<graphic name="collision" value="true" />
+		<graphic name="collision" value="true" />
+		<graphic name="collision" value="true" />
+	</graphics>
+</scenario>

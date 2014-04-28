@@ -56,37 +56,32 @@ class simulatorOptions extends Panel{
     val collisionSize = new Slider{
       min = 0
       max = 100
-      value = 25
+      value = 65
     }
     val collisionWeight= new Slider{
       min = 0
       max = 100
-      value = 25
+      value = 100
     }
     val flockareaSize =  new Slider{
       min = 0
       max = 300
-      value = 50
-    }
-    val flockareaWeight =  new Slider{
-      min = 0
-      max = 100
-      value = 50
+      value = 38
     }
     val alignmentWeight =  new Slider{
       min = 0
       max = 100
-      value = 50
+      value = 26
     }
     val cohesionWeight =  new Slider{
       min = 0
       max = 100
-      value = 50
+      value = 40
     }
     val targetWeight =  new Slider{
       min = 0
       max = 100
-      value = 50
+      value = 70
     }
     
     val ruleInputs = new GridPanel(12,1){
