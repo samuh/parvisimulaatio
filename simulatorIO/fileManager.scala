@@ -56,9 +56,9 @@ class fileManager{
 	        graphics => (graphics \ "graphic").foreach{
 	          graphic => {
 	            (graphic \ "@name").text match{
-	              case "collision" => main.viewWindow.collision = (graphic \ "@value").text.toBoolean; main.optionsWindow.toggleCollision.selected = true
-	              case "flock" => main.viewWindow.flock = (graphic \ "@value").text.toBoolean; main.optionsWindow.toggleFlock.selected = true
-	              case "data" => main.viewWindow.data = (graphic \ "@value").text.toBoolean; main.optionsWindow.toggleData.selected = true
+	              case "collision" => main.viewWindow.collision = (graphic \ "@value").text.toBoolean; main.optionsWindow.toggleCollision.selected = (graphic \ "@value").text.toBoolean
+	              case "flock" => main.viewWindow.flock = (graphic \ "@value").text.toBoolean; main.optionsWindow.toggleFlock.selected = (graphic \ "@value").text.toBoolean
+	              case "data" => main.viewWindow.data = (graphic \ "@value").text.toBoolean; main.optionsWindow.toggleData.selected = (graphic \ "@value").text.toBoolean
 	            }
 	          }
 	          simulator.repaintView
