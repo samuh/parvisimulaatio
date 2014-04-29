@@ -16,6 +16,8 @@ class simulatorBird(){
   
   private var color : Color = Color.white
   
+  def toXml = <bird x={this.getPositionX.toString} y={this.getPositionY.toString} orientation={this.getOrientation.toString} />
+  
   def getPosition = this.position
   
   def getPositionX = this.position._1
@@ -111,7 +113,7 @@ class simulatorBird(){
     if(turnTo <= 0.0){
       turnTo = (math.Pi * 2) + turnTo
     }
-    if(turnTo < currentOrientation && (currentOrientation > turnTo || currentOrientation < turnTo)){
+    if(turnTo < currentOrientation && (currentOrientation < turnTo + 20 || currentOrientation > turnTo - 20)){
     	if(math.abs(currentOrientation - turnTo) > math.Pi){
     	  newOrientation = currentOrientation + (weight * 0.01)
     	  if(newOrientation > math.Pi * 2){
@@ -128,7 +130,7 @@ class simulatorBird(){
     	  }
     	}
     }
-    if(turnTo > currentOrientation && (currentOrientation > turnTo || currentOrientation < turnTo)){
+    if(turnTo > currentOrientation && (currentOrientation < turnTo + 20 || currentOrientation > turnTo - 20)){
 		if(math.abs(turnTo - currentOrientation) > math.Pi){
     	  newOrientation = (currentOrientation - (weight * 0.01))
     	  if(newOrientation < 0){

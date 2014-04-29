@@ -108,8 +108,6 @@ class simulatorRuntime() {
     
     if(localFlock.length > 1){
 	    /** Set collision limits */
-	    val xCollision = (x + collision, x - collision)
-	    val yCollision = (y + collision, y - collision)
 	    
 	    /** Initialize rule parameters */
 	    var flockOrientation = 0.0
@@ -124,7 +122,7 @@ class simulatorRuntime() {
 		      					flockOrientation += b.getOrientation 
 		      					flockCenterX += b.getPositionX
 		      					flockCenterY += b.getPositionY
-		      					if((x < xCollision._1 || x > xCollision._2) && (y < yCollision._1 || y > yCollision._2)){
+		      					if( distance(math.abs(otherX - x), math.abs(otherY - y)) < collision){
 		      						bird.avoid(b)
 		      					}
 	      					}
@@ -185,14 +183,4 @@ class simulatorRuntime() {
       				}}
     return localFlock
   }
-  
-  
-}
-
-class calculateBirdPosition(bird : simulatorBird) extends Runnable {
-  //Calculate birds position
-  def run(){
-	  
-  }
-
 }

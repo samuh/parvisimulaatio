@@ -51,7 +51,7 @@ object simulatorMainWindow extends SimpleSwingApplication{
     listenTo(optionsWindow.collisionSize, optionsWindow.collisionWeight, optionsWindow.alignmentWeight, optionsWindow.cohesionWeight, optionsWindow.flockareaSize, optionsWindow.targetWeight)
     reactions +={
       case ValueChanged(optionsWindow.collisionSize) => simulator.collisionSize = optionsWindow.collisionSize.value.toDouble; simulator.repaintView
-      case ValueChanged(optionsWindow.collisionWeight) => simulator.collision = optionsWindow.collisionSize.value.toDouble
+      case ValueChanged(optionsWindow.collisionWeight) => simulator.collision = optionsWindow.collisionWeight.value.toDouble
       case ValueChanged(optionsWindow.alignmentWeight) => simulator.alignment = optionsWindow.alignmentWeight.value; simulator.repaintView
       case ValueChanged(optionsWindow.cohesionWeight) => simulator.cohesion = optionsWindow.cohesionWeight.value; simulator.repaintView
       case ValueChanged(optionsWindow.flockareaSize) => simulator.flockSize = optionsWindow.flockareaSize.value; simulator.repaintView
@@ -64,8 +64,8 @@ object simulatorMainWindow extends SimpleSwingApplication{
     resizable = false
     menuBar = new MenuBar {
       contents += new Menu("Menu") {
-        contents += new MenuItem(Action("Load Scenario...")(fileManager.openFile))
-        contents += new MenuItem("Save scenario..")
+        contents += new MenuItem(Action("Load Scenario")(fileManager.openFile))
+        contents += new MenuItem(Action("Save Scenario")(fileManager.saveFile))
         contents += new MenuItem(Action("Exit") {
           sys.exit(0)
         })

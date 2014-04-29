@@ -13,6 +13,19 @@ import simulator.logic.simulatorRuntime
 
 class simulatorOptions extends Panel{
   
+	def rulesToXml = 
+		<rule name="collisionSize" value={this.collisionSize.value.toString} />
+		<rule name="collision" value={this.collisionWeight.value.toString} />
+		<rule name="alignment" value={this.alignmentWeight.value.toString} />
+		<rule name="cohesionWeight" value={this.cohesionWeight.value.toString} />
+		<rule name="flockareaSize" value={this.flockareaSize.value.toString} />
+		<rule name="target" value={this.targetWeight.value.toString} />;
+	
+	def graphicsToXml = 
+		<graphic name="collision" value={this.toggleCollision.selected.toString} />
+		<graphic name="flock" value={this.toggleFlock.selected.toString} />
+		<graphic name="data" value={this.toggleData.selected.toString} />;
+  
 	val titlePicture = new Label {
 	  icon = new ImageIcon("parvisimulaatio.png")
 	}
@@ -40,7 +53,7 @@ class simulatorOptions extends Panel{
       contents += speedFrame
     }
     
-    val inputsLabel = new JLabel("<html><body><h4 style='text-align:center;margin-left:10px;margin-right:10px;'>Control option parameters. Range from 0 to 100 </h4></body></html>")
+    val inputsLabel = new JLabel("<html><body><h4 style='text-align:center;margin-left:10px;margin-right:10px;'>Control option parameters with sliders</h4></body></html>")
     val inputsFrame = Component.wrap(inputsLabel);
     
     val inputWindow = new BorderPanel(){
@@ -174,7 +187,7 @@ class simulatorOptions extends Panel{
 	  contents += VStrut(10)
 	  contents += ruleWindow
 	  contents += graphicWindow
-	  contents += VStrut(10)
+	  contents += VStrut(22)
 	  contents += buttonWindow
    }
     
