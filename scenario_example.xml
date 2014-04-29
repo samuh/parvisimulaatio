@@ -1,23 +1,5 @@
 <scenario>
-	<birds>
-		<bird x="1.0" y="1.0" orientation="3.13" />
-		<bird x="1.0" y="1.0" orientation="3.13" />
-		<bird x="1.0" y="1.0" orientation="3.13" />
-		<bird x="1.0" y="1.0" orientation="3.13" />
-		<bird x="1.0" y="1.0" orientation="3.13" />
-	</birds>
-	<rules>
-		<rule name="collisionSize" value="75.0" />
-		<rule name="collisionSize" value="75.0" />
-		<rule name="collisionSize" value="75.0" />
-		<rule name="collisionSize" value="75.0" />
-		<rule name="collisionSize" value="75.0" />
-	</rules>
-	<graphics>
-		<graphic name="collision" value="true" />
-		<graphic name="collision" value="true" />
-		<graphic name="collision" value="true" />
-		<graphic name="collision" value="true" />
-		<graphic name="collision" value="true" />
-	</graphics>
-</scenario>
+      	<birds><bird x="343" y="356" orientation="0.8959216511506872"/><bird x="454" y="328" orientation="1.8986775070274644"/><bird x="370" y="443" orientation="0.6420693340816411"/><bird x="480" y="342" orientation="1.3341513723306957"/><bird x="515" y="405" orientation="0.6617783519260603"/><bird x="403" y="305" orientation="2.5257961492226433"/><bird x="305" y="299" orientation="1.006229993803906"/><bird x="324" y="431" orientation="2.9965106419313567"/><bird x="322" y="466" orientation="4.615613568947174"/><bird x="385" y="350" orientation="1.7426588843943331"/><bird x="538" y="429" orientation="2.531991501186858"/><bird x="622" y="475" orientation="1.8748967059187513"/><bird x="443" y="434" orientation="1.2009089008143374"/><bird x="584" y="523" orientation="1.5868973723046258"/><bird x="294" y="369" orientation="1.4310028137545325"/></birds>
+      	<rules><rule name="collisionSize" value="31"/><rule name="collision" value="37"/><rule name="alignment" value="11"/><rule name="cohesionWeight" value="12"/><rule name="flockareaSize" value="110"/><rule name="target" value="100"/></rules>
+      	<graphics><graphic name="collision" value="false"/><graphic name="flock" value="false"/><graphic name="data" value="true"/></graphics>
+	  </scenario>
