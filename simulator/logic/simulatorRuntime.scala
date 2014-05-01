@@ -115,8 +115,12 @@ class simulatorRuntime() {
 	    var flockCenterY = 0
 	    var avoidAdjustments = 0.0
 	    
-	    localFlock.foreach{ b =>
-	      					if(b != bird){
+	    /** Go through the birds
+	     * 	Get all the positions and orientations for counting 
+	     *  Also make bird avoid if close enough
+	     */
+	    birds.foreach{ b =>
+	      					if(b != bird && localFlock.contains(b)){
 		      					var otherX = b.getPositionX
 		      					var otherY = b.getPositionY
 		      					flockOrientation += b.getOrientation 
@@ -163,9 +167,7 @@ class simulatorRuntime() {
    *  @param bird local flock of this bird
    * 
    * Local flock is the nearest birds of the current bird.
-   * The current bird should take to account the orientation
-   * and flock center of this flock if those parameters are true
-   * 
+   * Uses collisionSize as a limit for local collision
    * The current bird IS part of the flock, so local flock length 
    * will always be at least one
    */
@@ -173,14 +175,15 @@ class simulatorRuntime() {
   def getLocalFlock(bird : simulatorBird) : Buffer[simulatorBird] ={
     var x = bird.getPositionX
     var y = bird.getPositionY
-    val xLocal = (x + flockSize, x - flockSize)
-    val yLocal = (y + flockSize, y - flockSize)
     
     var localFlock = Buffer[simulatorBird]()
     birds.foreach{b => 
-      				if((b.getPositionX < xLocal._1 && b.getPositionX > xLocal._2) && (b.getPositionY < yLocal._1 && b.getPositionY > yLocal._2)){ 
+      				if(distance(math.abs(x - b.getPositionX), math.abs(y - b.getPositionY)) < flockSize){ 
       				  localFlock += b
-      				}}
+      				}
+      			}
     return localFlock
   }
 }
+
+
