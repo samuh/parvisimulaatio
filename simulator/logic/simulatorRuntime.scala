@@ -105,6 +105,7 @@ class simulatorRuntime() {
     
     /** Get local flock */
     var localFlock = getLocalFlock(bird)
+    var flock = birds
     
     if(localFlock.length > 1){
 	    /** Set collision limits */

@@ -183,12 +183,8 @@ class simulatorBird(){
    */
   def moveToDirection = {
     var rad = getOrientation
-    /** To right 337.5 - 22.5 */
-    if(rad > 5.08 && rad <= (math.Pi * 2)){
-      move(1, 1)
-    }
     /** To upright 22.5 - 67.5 */
-    else if(rad > 0.39 && rad <= 1.178){
+    if(rad > 0.39 && rad <= 1.178){
       move(1, -1)
     }
     /** To up 67.5 - 112.5 */
@@ -211,7 +207,11 @@ class simulatorBird(){
     else if(rad > 4.3 && rad <= 5.08){
       move(0, 1)
     }
-    /** To right */
+    /** To right down 292.5 - 337.5 */
+    else if(rad > 5.08 && rad <= 5.87){
+      move(1, 1)
+    }
+    /** To right  337.5 - 22.5 */
     else{
       move(1, 0)
     }
