@@ -6,6 +6,7 @@ import simulator.logic.simulatorBird
 import simulator.gui.simulatorMainWindow
 import scala.collection.mutable._
 import javax.swing._
+import javax.swing.filechooser.FileNameExtensionFilter
 
 class fileManager{
   
@@ -17,6 +18,8 @@ class fileManager{
     simulator.timer.stop()
     main.optionsWindow.startButton.selected = false
     val chooser = new JFileChooser
+    val fileFilter = new FileNameExtensionFilter("Parvisimulaatio .xml files","xml")
+    chooser.setFileFilter(fileFilter)
     if(chooser.showOpenDialog(parentFrame) == JFileChooser.APPROVE_OPTION){
       val data = scala.xml.XML.loadFile(chooser.getSelectedFile())
       
