@@ -89,7 +89,7 @@ class simulatorRuntime() {
    */
   def distance(x : Int, y : Int) : Double = math.sqrt(math.pow(x, 2) + math.pow(y, 2))
   
-  /** Calculate new bird position taking account all of the rules
+  /** Move bird to new position taking account all of the rules
    *  
    *  Birds are moved simply by turning and then moving them to direction of their orientation
    *  All of the data is gathered from local flock
