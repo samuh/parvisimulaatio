@@ -1,5 +1,6 @@
 parvisimulaatio
 ===============
+####All the code was written in early 2014
 
 Scala school project for simple flock simulation with file save/load and rules such as:
   - Collision area
