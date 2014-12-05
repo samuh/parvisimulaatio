@@ -15,3 +15,5 @@ By default birds follow cursor which can be locked in to position and released w
 Delay frequency corresponds refresh rate.
 
 Simulation does **NOT** use real world physics simulation like weight, acceleration and speed, which makes it very elementary.
+
+![Alt text](/sc.PNG?raw=true "screenshot")
